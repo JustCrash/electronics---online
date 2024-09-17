@@ -1,4 +1,5 @@
 from django.db import models
+from company.models import Company
 
 class Product(models.Model):
     name = models.CharField(
@@ -14,6 +15,11 @@ class Product(models.Model):
     create_date = models.DateTimeField(
         verbose_name="Дата выхода на рынок",
         help_text="Укажите дату выхода продукта на рынок"
+    )
+    company = models.ForeignKey(
+        Company,
+        on_delete=models.CASCADE,
+        verbose_name="Компания",
     )
 
     def __str__(self):
