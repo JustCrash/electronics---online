@@ -16,7 +16,7 @@ class Product(models.Model):
         verbose_name="Дата выхода на рынок",
         help_text="Укажите дату выхода продукта на рынок"
     )
-    company = models.ForeignKey(
+    company = models.ManyToManyField(
         Company,
         on_delete=models.CASCADE,
         verbose_name="Компания",

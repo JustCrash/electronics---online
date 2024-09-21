@@ -1,7 +1,9 @@
 from django.db import models
+from user import Users
 
 
-SUPPLIERS_TYPE = [("individual", "индивидуальный"), ("factory", "завод"), ("retail", "розничный"), ("null", "нет"),]
+SUPPLIERS_TYPE = [("individual", "индивидуальный"), ("factory", "завод"), ("retail", "розничный"),]
+NULLABLE = {'plank': True, 'null': True}
 
 
 class Company(models.Model):
@@ -44,6 +46,26 @@ class Company(models.Model):
         default=0,
         verbose_name="Уровень компании",
     )
+    type_company = models.CharField(
+        max_length=20,
+        choices=SUPPLIERS_TYPE,
+        verbose_name="Тип компании",
+    )
+    supplier_name = models.CharField(
+        max_length=100,
+        verbose_name="Название поставщика",
+        **NULLABLE,
+    )
+    supplier_id = models.IntegerField(
+        verbose_name="Идентификатор поставщика",
+        **NULLABLE,
+    )
+    owner = models.ForeignKey(
+        Users,
+        on_delete=models.CASCADE,
+        verbose_name="Владелец компании",
+        help_text="Укажите владельца компании",
+    )
 
     def __str__(self):
         return self.name
@@ -54,9 +76,10 @@ class Company(models.Model):
 
 
 class Supplier(models.Model):
-    supplier = models.CharField(
-        choices=SUPPLIERS_TYPE,
-        verbose_name="Поставщик",
+    name_supplier = models.CharField(
+        max_length=100,
+        verbose_name="Название компании-поставщика",
+        **NULLABLE
     )
     debt = models.DecimalField(
         max_digits=10,
@@ -67,14 +90,24 @@ class Supplier(models.Model):
         auto_now_add=True,
         verbose_name="Время создания",
     )
-    company = models.ForeignKey(
+    company_customer = models.IntegerField(
+        verbose_name="Компания покупатель",
+
+    )
+    company_supplier = models.ForeignKey(
         Company,
         on_delete=models.CASCADE,
         verbose_name="Компания",
     )
+    owner = models.ForeignKey(
+        Users,
+        on_delete=models.CASCADE,
+        verbose_name="Владелец",
+        **NULLABLE,
+    )
 
     def __str__(self):
-        return f"self.supplier"
+        return self.company_supplier
 
     class Meta:
         verbose_name = "Поставщик"
