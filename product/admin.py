@@ -8,5 +8,5 @@ class ProductAdmin(admin.ModelAdmin):
     """
     Интерфейс администрирования продукта для администратора.
     """
-    list_display = ('id', 'name', 'model', 'create_date', 'company')
+    list_display = ('id', 'name', 'product_model', 'create_date', 'company')
     search_fields = ('name',)
