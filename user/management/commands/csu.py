@@ -10,7 +10,9 @@ load_dotenv(ENV_DIR)
 
 
 class Command(BaseCommand):
-    """Create superuser command"""
+    """
+    Параметры для суперпользователя.
+    """
     def handle(self, *args, **options):
         user = Users.objects.create(
             email=os.getenv('ADMIN_EMAIL'),
