@@ -60,6 +60,7 @@ class Company(models.Model):
         on_delete=models.CASCADE,
         verbose_name="Владелец компании",
         help_text="Укажите владельца компании",
+        **NULLABLE,
     )
 
     def __str__(self):
