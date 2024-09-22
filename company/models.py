@@ -8,6 +8,7 @@ NULLABLE = {"blank": True, "null": True}
 
 class Company(models.Model):
     name = models.CharField(
+        unique=True,
         max_length=250,
         verbose_name="Название",
         help_text="Укажите название",
