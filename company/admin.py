@@ -3,7 +3,7 @@ from django.contrib import admin
 from company.models import Supplier, Company
 
 
-def clear_debt(queryset):
+def clear_debt(modeladmin, request, queryset):
     for obj in queryset:
         obj.debt = 0
         obj.save()
@@ -37,3 +37,4 @@ class CompanyAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'email', 'country', 'city', 'type_company', 'number_home', 'street',
                     'owner')
     search_fields = ('city',)
+    list_filter = ("city",)
