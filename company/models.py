@@ -104,7 +104,7 @@ class Supplier(models.Model):
     )
 
     def __str__(self):
-        return self.company_supplier
+        return f"{self.name_supplier}"
 
     class Meta:
         verbose_name = "Поставщик"
