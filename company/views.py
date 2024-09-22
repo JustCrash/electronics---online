@@ -86,7 +86,7 @@ class SupplierViewSet(viewsets.ModelViewSet):
 
         if company_customer.type_company == 'individual' or company_customer.type_company == 'retail':
             Company.objects.filter(id=company_customer.id).update(
-                level_company=2, supplier_name=supplier.company_supplier.name,
+                level_company=2, name_supplier=supplier.company_supplier.name,
                 supplier_id=supplier.company_supplier.id,
             )
             supplier.name_supplier = company_customer.name
@@ -96,7 +96,7 @@ class SupplierViewSet(viewsets.ModelViewSet):
             supplier.name_supplier = company_customer.name
             supplier.save()
             Company.objects.filter(id=company_customer.id).update(
-                level_company=1, supplier_name=supplier.company_supplier.name,
+                level_company=1, name_supplier=supplier.company_supplier.name,
                 supplier_id=supplier.company_supplier.id
             )
         return supplier
@@ -113,7 +113,7 @@ class SupplierViewSet(viewsets.ModelViewSet):
             supplier.owner = self.request.user
             supplier.save()
             Company.objects.filter(id=company_customer.id).update(
-                level_company=2, supplier_name=supplier.company_supplier.name,
+                level_company=2, name_supplier=supplier.company_supplier.name,
                 supplier_id=supplier.company_supplier.id,
             )
         elif company_customer.type_company == 'factory':
@@ -121,7 +121,7 @@ class SupplierViewSet(viewsets.ModelViewSet):
             supplier.owner = self.request.user
             supplier.save()
             Company.objects.filter(id=company_customer.id).update(
-                level_company=1, supplier_name=supplier.company_supplier.name,
+                level_company=1, name_supplier=supplier.company_supplier.name,
                 supplier_id=supplier.company_supplier.id
             )
         return supplier
