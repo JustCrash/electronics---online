@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from company.models import Company
+from company.models import Supplier
 
 
 class CompanySerializer(serializers.ModelSerializer):
@@ -41,3 +42,31 @@ class CompanyUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Company
         fields = "__all__"
+
+
+class SupplierSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор объектов поставщика.
+    """
+
+    class Meta:
+        model = Supplier
+        fields = "__all__"
+
+
+class SupplierUpdateSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор объектов обновления поставщика.
+    """
+    class Meta:
+        model = Supplier
+        fields = ('company_customer', 'supplier_company')
+
+
+class SupplierListSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор объектов списка поставщиков.
+    """
+    class Meta:
+        model = Supplier
+        fields = ('supplier_name', 'owner', 'id')
