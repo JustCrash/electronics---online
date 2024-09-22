@@ -12,7 +12,7 @@ class Product(models.Model):
         verbose_name="Модель",
         help_text="Укажите модель продукта"
     )
-    create_date = models.DateTimeField(
+    create_date = models.DateField(
         verbose_name="Дата выхода на рынок",
         help_text="Укажите дату выхода продукта на рынок"
     )
