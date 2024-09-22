@@ -1,9 +1,9 @@
 from django.db import models
-from user import Users
+from user.models import Users
 
 
 SUPPLIERS_TYPE = [("individual", "индивидуальный"), ("factory", "завод"), ("retail", "розничный"),]
-NULLABLE = {'plank': True, 'null': True}
+NULLABLE = {"blank": True, "null": True}
 
 
 class Company(models.Model):
@@ -11,11 +11,6 @@ class Company(models.Model):
         max_length=250,
         verbose_name="Название",
         help_text="Укажите название",
-    )
-    contacts = models.IntegerField(
-        max_length=11,
-        verbose_name="Контактный телефон",
-        help_text="Укажите контактный телефон",
     )
     email = models.EmailField(
         unique=True,
