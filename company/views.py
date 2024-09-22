@@ -51,13 +51,17 @@ class CompanyViewSet(viewsets.ModelViewSet):
 
 
 class SupplierViewSet(viewsets.ModelViewSet):
-    """Supplier view set."""
+    """
+    Supplier view set.
+    """
     queryset = Supplier.objects.all()
     serializer_class = SupplierSerializer
     pagination_class = SuppliersPaginator
 
     def get_permissions(self):
-        """Checking supplier access."""
+        """
+        Проверка доступа к поставщику.
+        """
         if self.action == "create":
             self.permission_classes = [IsAuthenticated]
         if self.action == "list":
@@ -72,49 +76,52 @@ class SupplierViewSet(viewsets.ModelViewSet):
         return super().get_permissions()
 
     def perform_create(self, serializer):
-        """Before saving the supplier, add the owner."""
+        """
+        Прежде чем сохранить поставщика, добавьте владельца.
+        """
         supplier = serializer.save()
         company_customer = Company.objects.get(id=supplier.company_customer)
-        supplier.owner = self.request.user
         supplier.owner = self.request.user
         supplier.save()
 
         if company_customer.type_company == 'individual' or company_customer.type_company == 'retail':
-            Company.objects.filter(id=company_customer).update(
-                level=2, supplier_company_name=supplier.supplier_company.name,
-                supplier_company_id=supplier.supplier_company.id,
+            Company.objects.filter(id=company_customer.id).update(
+                level_company=2, supplier_name=supplier.company_supplier.name,
+                supplier_id=supplier.company_supplier.id,
             )
-            supplier.supplier_name = company_customer.name
+            supplier.name_supplier = company_customer.name
             supplier.owner = self.request.user
             supplier.save()
         elif company_customer.type_company == 'factory':
-            supplier.supplier_name = company_customer.name
+            supplier.name_supplier = company_customer.name
             supplier.save()
             Company.objects.filter(id=company_customer.id).update(
-                level=1, supplier_company_name=supplier.supplier_company.name,
-                supplier_company_id=supplier.supplier_company.id
+                level_company=1, supplier_name=supplier.company_supplier.name,
+                supplier_id=supplier.company_supplier.id
             )
         return supplier
 
     def perform_update(self, serializer):
-        """Before saving the supplier, add the owner."""
+        """
+        Прежде чем сохранить поставщика, добавьте владельца.
+        """
         supplier = serializer.save()
         company_customer = Company.objects.get(id=supplier.company_customer)
 
         if company_customer.type_company == 'individual' or company_customer.type_company == 'retail':
-            supplier.supplier_name = company_customer.name
-            supplier.owner = self.request.user
-            supplier.save()
-            Company.objects.filter(id=company_customer).update(
-                level=2, supplier_company_name=supplier.supplier_company.name,
-                supplier_company_id=supplier.supplier_company.id,
-            )
-        elif company_customer.type_company == 'factory':
-            supplier.supplier_name = company_customer.name
+            supplier.name_supplier = company_customer.name
             supplier.owner = self.request.user
             supplier.save()
             Company.objects.filter(id=company_customer.id).update(
-                level=1, supplier_company_name=supplier.supplier_company.name,
-                supplier_company_id=supplier.supplier_company.id
+                level_company=2, supplier_name=supplier.company_supplier.name,
+                supplier_id=supplier.company_supplier.id,
+            )
+        elif company_customer.type_company == 'factory':
+            supplier.name_supplier = company_customer.name
+            supplier.owner = self.request.user
+            supplier.save()
+            Company.objects.filter(id=company_customer.id).update(
+                level_company=1, supplier_name=supplier.company_supplier.name,
+                supplier_id=supplier.company_supplier.id
             )
         return supplier

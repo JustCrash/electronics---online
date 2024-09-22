@@ -21,7 +21,7 @@ class CompanyListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Company
-        fields = ("id", "name", "email", "country", "city", "street", "house_number", "owner")
+        fields = ("id", "name", "email", "country", "city", "street", "number_home", "owner")
 
 
 class CompanyDetailSerializer(serializers.ModelSerializer):
@@ -60,7 +60,7 @@ class SupplierUpdateSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = Supplier
-        fields = ('company_customer', 'supplier_company')
+        fields = ('company_customer', 'company_supplier')
 
 
 class SupplierListSerializer(serializers.ModelSerializer):
@@ -69,4 +69,4 @@ class SupplierListSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = Supplier
-        fields = ('supplier_name', 'owner', 'id')
+        fields = ('name_supplier', 'owner', 'id')
